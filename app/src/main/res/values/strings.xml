@@ -3,4 +3,7 @@
     <string name="menu_layout">Linear Layout</string>
     <string name="grid_layout">Grid layout</string>
     <string name="inserir_uma_nota">Inserir uma nota</string>
+    <string name="titulo">Título</string>
+    <string name="descricao">Descrição</string>
+    <string name="cor_de_fundo_da_nota">Cor de fundo da nota</string>
 </resources>
