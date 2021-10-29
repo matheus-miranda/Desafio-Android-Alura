@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
@@ -32,6 +33,8 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
     private TextView titulo;
     private TextView descricao;
     private RecyclerView rvCores;
+    private List<Integer> cores;
+    private ConstraintLayout rootLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +63,7 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
     }
 
     private FormularioNotaAdapter configuraAdapter() {
-        List<Integer> cores = new ArrayList<>();
+        cores = new ArrayList<>();
         for (Cores cor : Cores.values()) {
             cores.add(Color.parseColor(cor.corString));
         }
@@ -117,5 +120,7 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
      */
     @Override
     public void onColorClick(int posicao) {
+        rootLayout = findViewById(R.id.formulario_nota_root);
+        rootLayout.setBackgroundColor(cores.get(posicao));
     }
 }
