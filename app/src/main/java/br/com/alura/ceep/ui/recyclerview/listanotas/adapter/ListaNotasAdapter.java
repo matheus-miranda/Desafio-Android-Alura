@@ -1,4 +1,4 @@
-package br.com.alura.ceep.ui.recyclerview.adapter;
+package br.com.alura.ceep.ui.recyclerview.listanotas.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,7 +13,7 @@ import java.util.List;
 
 import br.com.alura.ceep.R;
 import br.com.alura.ceep.model.Nota;
-import br.com.alura.ceep.ui.recyclerview.adapter.listener.OnItemClickListener;
+import br.com.alura.ceep.ui.recyclerview.listanotas.adapter.listener.OnItemClickListener;
 
 public class ListaNotasAdapter extends RecyclerView.Adapter<ListaNotasAdapter.NotaViewHolder> {
 

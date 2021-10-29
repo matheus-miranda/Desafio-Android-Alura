@@ -1,11 +1,11 @@
-package br.com.alura.ceep.ui.recyclerview.helper.callback;
+package br.com.alura.ceep.ui.recyclerview.listanotas.callback;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
 import br.com.alura.ceep.dao.NotaDAO;
-import br.com.alura.ceep.ui.recyclerview.adapter.ListaNotasAdapter;
+import br.com.alura.ceep.ui.recyclerview.listanotas.adapter.ListaNotasAdapter;
 
 public class NotaItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
