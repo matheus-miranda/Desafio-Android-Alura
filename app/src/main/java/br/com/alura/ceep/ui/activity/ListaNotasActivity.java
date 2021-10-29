@@ -29,10 +29,9 @@ import br.com.alura.ceep.R;
 import br.com.alura.ceep.dao.NotaDAO;
 import br.com.alura.ceep.model.Nota;
 import br.com.alura.ceep.ui.recyclerview.listanotas.adapter.ListaNotasAdapter;
-import br.com.alura.ceep.ui.recyclerview.listanotas.adapter.listener.OnItemClickListener;
 import br.com.alura.ceep.ui.recyclerview.listanotas.callback.NotaItemTouchHelperCallback;
 
-public class ListaNotasActivity extends AppCompatActivity {
+public class ListaNotasActivity extends AppCompatActivity implements ListaNotasAdapter.OnItemClickListener {
 
     public static final String TITULO_APPBAR = "Notas";
     private static final String SHARED_PREFS = "shared_prefs";
@@ -137,7 +136,6 @@ public class ListaNotasActivity extends AppCompatActivity {
                 Nota notaRecebida = (Nota) data.getSerializableExtra(CHAVE_NOTA);
                 adiciona(notaRecebida);
             }
-
         }
 
         if (ehResultadoAlteraNota(requestCode, data)) {
@@ -211,14 +209,8 @@ public class ListaNotasActivity extends AppCompatActivity {
     }
 
     private void configuraAdapter(List<Nota> todasNotas, RecyclerView listaNotas) {
-        adapter = new ListaNotasAdapter(this, todasNotas);
+        adapter = new ListaNotasAdapter(this, todasNotas, this::onItemClick);
         listaNotas.setAdapter(adapter);
-        adapter.setOnItemClickListener(new OnItemClickListener() {
-            @Override
-            public void onItemClick(Nota nota, int posicao) {
-                vaiParaFormularioNotaActivityAltera(nota, posicao);
-            }
-        });
     }
 
     private void vaiParaFormularioNotaActivityAltera(Nota nota, int posicao) {
@@ -229,4 +221,14 @@ public class ListaNotasActivity extends AppCompatActivity {
         startActivityForResult(abreFormularioComNota, CODIGO_REQUISICAO_ALTERA_NOTA);
     }
 
+    /**
+     * Define comportamento do clique um uma nota
+     *
+     * @param nota clicada
+     * @param posicao da nota
+     */
+    @Override
+    public void onItemClick(Nota nota, int posicao) {
+        vaiParaFormularioNotaActivityAltera(nota, posicao);
+    }
 }

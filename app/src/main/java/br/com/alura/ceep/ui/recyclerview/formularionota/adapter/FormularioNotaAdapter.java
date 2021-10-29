@@ -43,7 +43,7 @@ public class FormularioNotaAdapter extends RecyclerView.Adapter<FormularioNotaAd
         return coresList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+    public static class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView ivCor;
         private final OnColorClickListener onColorClickListener;
