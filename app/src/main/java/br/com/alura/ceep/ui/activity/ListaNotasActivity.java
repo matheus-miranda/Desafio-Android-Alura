@@ -106,12 +106,7 @@ public class ListaNotasActivity extends AppCompatActivity implements ListaNotasA
 
     private void configuraBotaoInsereNota() {
         TextView botaoInsereNota = findViewById(R.id.lista_notas_insere_nota);
-        botaoInsereNota.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                vaiParaFormularioNotaActivityInsere();
-            }
-        });
+        botaoInsereNota.setOnClickListener(view -> vaiParaFormularioNotaActivityInsere());
     }
 
     private void vaiParaFormularioNotaActivityInsere() {

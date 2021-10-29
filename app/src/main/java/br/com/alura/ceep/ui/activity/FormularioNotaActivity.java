@@ -35,6 +35,7 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
     private RecyclerView rvCores;
     private List<Integer> cores;
     private ConstraintLayout rootLayout;
+    private Nota nota;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,22 +45,31 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
         setTitle(TITULO_APPBAR_INSERE);
         inicializaCampos();
         configuraRecyclerView();
+        recuperaIntent();
+    }
 
-        Intent dadosRecebidos = getIntent();
-        if (dadosRecebidos.hasExtra(CHAVE_NOTA)) {
-            setTitle(TITULO_APPBAR_ALTERA);
-            Nota notaRecebida = (Nota) dadosRecebidos
-                    .getSerializableExtra(CHAVE_NOTA);
-            posicaoRecibida = dadosRecebidos.getIntExtra(CHAVE_POSICAO, POSICAO_INVALIDA);
-            preencheCampos(notaRecebida);
-        }
+    private void inicializaCampos() {
+        rootLayout = findViewById(R.id.formulario_nota_root);
+        rvCores = findViewById(R.id.formulario_rv_cores);
+        titulo = findViewById(R.id.formulario_nota_titulo);
+        descricao = findViewById(R.id.formulario_nota_descricao);
     }
 
     private void configuraRecyclerView() {
-        rvCores = findViewById(R.id.formulario_rv_cores);
-
         FormularioNotaAdapter adapter = configuraAdapter();
         rvCores.setAdapter(adapter);
+    }
+
+    private void recuperaIntent() {
+        Intent dadosRecebidos = getIntent();
+        if (dadosRecebidos.hasExtra(CHAVE_NOTA)) {
+            setTitle(TITULO_APPBAR_ALTERA);
+            nota = (Nota) dadosRecebidos.getSerializableExtra(CHAVE_NOTA);
+            posicaoRecibida = dadosRecebidos.getIntExtra(CHAVE_POSICAO, POSICAO_INVALIDA);
+            preencheCampos();
+        } else {
+            nota = new Nota("", "", -1);
+        }
     }
 
     private FormularioNotaAdapter configuraAdapter() {
@@ -70,14 +80,10 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
         return new FormularioNotaAdapter(this, cores, this::onColorClick);
     }
 
-    private void preencheCampos(Nota notaRecebida) {
-        titulo.setText(notaRecebida.getTitulo());
-        descricao.setText(notaRecebida.getDescricao());
-    }
-
-    private void inicializaCampos() {
-        titulo = findViewById(R.id.formulario_nota_titulo);
-        descricao = findViewById(R.id.formulario_nota_descricao);
+    private void preencheCampos() {
+        rootLayout.setBackgroundColor(nota.getCor());
+        titulo.setText(nota.getTitulo());
+        descricao.setText(nota.getDescricao());
     }
 
     @Override
@@ -96,17 +102,20 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
         return super.onOptionsItemSelected(item);
     }
 
-    private void retornaNota(Nota nota) {
+    private void retornaNota(Nota notaCriada) {
         Intent resultadoInsercao = new Intent();
-        resultadoInsercao.putExtra(CHAVE_NOTA, nota);
+        resultadoInsercao.putExtra(CHAVE_NOTA, notaCriada);
         resultadoInsercao.putExtra(CHAVE_POSICAO, posicaoRecibida);
         setResult(Activity.RESULT_OK, resultadoInsercao);
     }
 
     @NonNull
     private Nota criaNota() {
-        return new Nota(titulo.getText().toString(),
-                descricao.getText().toString());
+        return new Nota(
+                titulo.getText().toString(),
+                descricao.getText().toString(),
+                nota.getCor()
+        );
     }
 
     private boolean ehMenuSalvaNota(MenuItem item) {
@@ -120,7 +129,7 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
      */
     @Override
     public void onColorClick(int posicao) {
-        rootLayout = findViewById(R.id.formulario_nota_root);
         rootLayout.setBackgroundColor(cores.get(posicao));
+        nota.setCor(cores.get(posicao));
     }
 }

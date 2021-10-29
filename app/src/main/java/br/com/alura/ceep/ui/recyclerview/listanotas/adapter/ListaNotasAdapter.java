@@ -84,6 +84,7 @@ public class ListaNotasAdapter extends RecyclerView.Adapter<ListaNotasAdapter.No
 
         public void vincula(Nota nota) {
             this.nota = nota;
+            itemView.setBackgroundColor(nota.getCor());
             preencheCampo(nota);
         }
 
