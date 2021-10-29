@@ -24,7 +24,7 @@ import br.com.alura.ceep.model.Nota;
 import br.com.alura.ceep.ui.recyclerview.formularionota.Cores;
 import br.com.alura.ceep.ui.recyclerview.formularionota.adapter.FormularioNotaAdapter;
 
-public class FormularioNotaActivity extends AppCompatActivity {
+public class FormularioNotaActivity extends AppCompatActivity implements FormularioNotaAdapter.OnColorClickListener {
 
     public static final String TITULO_APPBAR_INSERE = "Insere nota";
     public static final String TITULO_APPBAR_ALTERA = "Altera nota";
@@ -64,7 +64,7 @@ public class FormularioNotaActivity extends AppCompatActivity {
         for (Cores cor : Cores.values()) {
             cores.add(Color.parseColor(cor.corString));
         }
-        return new FormularioNotaAdapter(this, cores);
+        return new FormularioNotaAdapter(this, cores, this::onColorClick);
     }
 
     private void preencheCampos(Nota notaRecebida) {
@@ -108,5 +108,14 @@ public class FormularioNotaActivity extends AppCompatActivity {
 
     private boolean ehMenuSalvaNota(MenuItem item) {
         return item.getItemId() == R.id.menu_formulario_nota_ic_salva;
+    }
+
+    /**
+     * Quando uma cor é clicada, este método é chamado
+     *
+     * @param posicao da cor no adapter
+     */
+    @Override
+    public void onColorClick(int posicao) {
     }
 }

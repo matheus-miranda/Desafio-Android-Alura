@@ -17,10 +17,12 @@ public class FormularioNotaAdapter extends RecyclerView.Adapter<FormularioNotaAd
 
     private final Context context;
     private final List<Integer> coresList;
+    private final OnColorClickListener mOnColorClickListener;
 
-    public FormularioNotaAdapter(Context context, List<Integer> coresList) {
+    public FormularioNotaAdapter(Context context, List<Integer> coresList, OnColorClickListener onColorClickListener) {
         this.context = context;
         this.coresList = coresList;
+        this.mOnColorClickListener = onColorClickListener;
     }
 
     @NonNull
@@ -28,7 +30,7 @@ public class FormularioNotaAdapter extends RecyclerView.Adapter<FormularioNotaAd
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.item_cor, parent, false);
-        return new ViewHolder(view);
+        return new ViewHolder(view, mOnColorClickListener);
     }
 
     @Override
@@ -41,13 +43,26 @@ public class FormularioNotaAdapter extends RecyclerView.Adapter<FormularioNotaAd
         return coresList.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         private final ImageView ivCor;
+        private final OnColorClickListener onColorClickListener;
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(@NonNull View itemView, OnColorClickListener onColorClickListener) {
             super(itemView);
             ivCor = itemView.findViewById(R.id.iv_cor_selecionada);
+            this.onColorClickListener = onColorClickListener;
+
+            itemView.setOnClickListener(this);
         }
+
+        @Override
+        public void onClick(View v) {
+            onColorClickListener.onColorClick(getBindingAdapterPosition());
+        }
+    }
+
+    public interface OnColorClickListener {
+        void onColorClick(int posicao);
     }
 }
