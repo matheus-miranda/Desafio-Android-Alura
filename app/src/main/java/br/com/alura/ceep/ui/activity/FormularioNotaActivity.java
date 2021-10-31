@@ -29,6 +29,7 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
 
     public static final String TITULO_APPBAR_INSERE = "Insere nota";
     public static final String TITULO_APPBAR_ALTERA = "Altera nota";
+    private static final String COR_SELECIONADA = "corSelecionada";
     private int posicaoRecibida = POSICAO_INVALIDA;
     private TextView titulo;
     private TextView descricao;
@@ -36,6 +37,7 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
     private List<Integer> cores;
     private ConstraintLayout rootLayout;
     private Nota nota;
+    private int corSelecionada = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +48,20 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
         inicializaCampos();
         configuraRecyclerView();
         recuperaIntent();
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        outState.putInt(COR_SELECIONADA, corSelecionada);
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        corSelecionada = savedInstanceState.getInt(COR_SELECIONADA);
+        rootLayout.setBackgroundColor(corSelecionada);
+        nota.setCor(corSelecionada);
     }
 
     private void inicializaCampos() {
@@ -84,6 +100,7 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
         rootLayout.setBackgroundColor(nota.getCor());
         titulo.setText(nota.getTitulo());
         descricao.setText(nota.getDescricao());
+        corSelecionada = nota.getCor();
     }
 
     @Override
@@ -131,5 +148,6 @@ public class FormularioNotaActivity extends AppCompatActivity implements Formula
     public void onColorClick(int posicao) {
         rootLayout.setBackgroundColor(cores.get(posicao));
         nota.setCor(cores.get(posicao));
+        corSelecionada = cores.get(posicao);
     }
 }
