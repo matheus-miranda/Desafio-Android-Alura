@@ -6,4 +6,5 @@
     <string name="titulo">Título</string>
     <string name="descricao">Descrição</string>
     <string name="cor_de_fundo_da_nota">Cor de fundo da nota</string>
+    <string name="logotipo_ceep">Logotipo Ceep</string>
 </resources>
