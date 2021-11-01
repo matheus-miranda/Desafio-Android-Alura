@@ -6,12 +6,13 @@ import br.com.alura.ceep.helper.HelperDb;
 
 public class CeepApplication extends Application {
 
-    HelperDb db;
+    public HelperDb helperDb;
+    public static CeepApplication instance;
 
     @Override
     public void onCreate() {
         super.onCreate();
-
-        db = new HelperDb(this);
+        instance = this;
+        helperDb = new HelperDb(this);
     }
 }

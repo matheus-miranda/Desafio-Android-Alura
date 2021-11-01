@@ -11,10 +11,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,8 +26,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import java.util.List;
 
+import br.com.alura.ceep.CeepApplication;
 import br.com.alura.ceep.R;
 import br.com.alura.ceep.dao.NotaDAO;
+import br.com.alura.ceep.model.NotaEntity;
+import br.com.alura.ceep.helper.HelperDb;
 import br.com.alura.ceep.model.Nota;
 import br.com.alura.ceep.ui.recyclerview.listanotas.adapter.ListaNotasAdapter;
 import br.com.alura.ceep.ui.recyclerview.listanotas.callback.NotaItemTouchHelperCallback;
@@ -39,6 +43,7 @@ public class ListaNotasActivity extends AppCompatActivity implements ListaNotasA
     private ListaNotasAdapter adapter;
     private RecyclerView listaNotas;
     private SharedPreferences preferences;
+    private HelperDb db = CeepApplication.instance.helperDb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,25 @@ public class ListaNotasActivity extends AppCompatActivity implements ListaNotasA
         setContentView(R.layout.activity_lista_notas);
 
         setTitle(TITULO_APPBAR);
+
+        // Testando o DB
+        NotaEntity nota;
+        try {
+            nota = new NotaEntity(0, "titulo", "descricao", 1, 1);
+            boolean sucesso = db.adcionaNota(nota);
+            List<NotaEntity> listaNotas = db.buscaTodasNotas();
+            StringBuilder sb = new StringBuilder()
+                    .append(listaNotas.get(0).getId())
+                    .append(listaNotas.get(0).getTitulo())
+                    .append(listaNotas.get(0).getDescricao())
+                    .append(listaNotas.get(0).getCor())
+                    .append(listaNotas.get(0).getPosicao());
+            Toast.makeText(ListaNotasActivity.this, "sucesso = " + sucesso, Toast.LENGTH_SHORT).show();
+            Log.e("Banco", sb.toString());
+        } catch (Exception e) {
+            e.printStackTrace();
+            nota = new NotaEntity(-1, "erro", "erro", -1, -11);
+        }
 
         List<Nota> todasNotas = pegaTodasNotas();
         configuraRecyclerView(todasNotas);
@@ -219,7 +243,7 @@ public class ListaNotasActivity extends AppCompatActivity implements ListaNotasA
     /**
      * Define comportamento do clique um uma nota
      *
-     * @param nota clicada
+     * @param nota    clicada
      * @param posicao da nota
      */
     @Override
